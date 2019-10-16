@@ -1,0 +1,40 @@
+@import 'css/normalize.min.css';
+@import 'css/spinner.css';
+
+body {
+  background-color: #333;
+}
+p {
+  background-color: rgb(209, 124, 124);
+  padding: 20px;
+  font-size: 1.5rem;
+  color: white;
+  margin: 0;
+  user-select: none;
+  cursor: pointer;
+  transition: background-color 150ms;
+}
+
+p:hover {
+  background-color: rgb(223, 147, 147);
+}
+
+input {
+  width: 100%;
+  outline: none;
+  border: none;
+  background-color: #eee;
+  padding: 20px;
+  font-size: 1.6rem;
+}
+
+.selftext {
+  color: #ccc;
+  font-size: 1.3rem;
+  padding: 20px;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+}

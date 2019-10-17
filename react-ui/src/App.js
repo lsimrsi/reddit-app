@@ -11,9 +11,9 @@ function App() {
   const [subreddit, setSubreddit] = useState("");
   const [fetching, setFetching] = useState(false);
 
-  // useEffect(() => {
-  //   fetchSubredditData("rust");
-  // }, []);
+  useEffect(() => {
+    fetchSubredditData("rust");
+  }, []);
 
   useEffect(() => {
     if (!srdata) return;
@@ -87,19 +87,25 @@ function Post(props) {
     e.stopPropagation();
   }
 
+  let hasContent = props.item.data.selftext_html ? true : false;
+
   let element = null;
-  if (clicked && props.item.data.selftext_html) {
+  if (clicked && hasContent) {
     let decoded = entities.decode(props.item.data.selftext_html);
     element = htmlToReactParser.parse(decoded);
   }
 
   return (
-    <div className="post">
+    <section className="post">
       <p className="post-paragraph" onClick={onClick}>
-        <a className="post-link" href={props.item.data.url} onClick={onLinkClick} target="_blank" rel="noopener noreferrer">{props.item.data.title}</a></p>
+        <div className="has-content">
+          {hasContent && ">"}
+        </div>
+        <a className="post-link" href={props.item.data.url} onClick={onLinkClick} target="_blank" rel="noopener noreferrer">{props.item.data.title}</a>
+      </p>
       {clicked && element &&
-        <div className="selftext">{element}</div>}
-    </div>
+      <div className="selftext">{element}</div>}
+    </section>
   );
 }
 

@@ -11,7 +11,7 @@
     width: 1em;
     height: 1em;
     border-radius: 50%;
-    background: rgb(42, 42, 42);
+    background: #444;
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
   }
   .lds-ellipsis div:nth-child(1) {

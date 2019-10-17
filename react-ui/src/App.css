@@ -27,6 +27,7 @@ input {
 }
 
 .post-paragraph {
+  display: flex;
   background-color: rgb(209, 124, 124);
   padding: 20px;
   font-size: 1.5rem;
@@ -35,6 +36,10 @@ input {
   user-select: none;
   cursor: pointer;
   transition: background-color 150ms;
+}
+
+.has-content {
+  min-width: 40px;
 }
 
 .post-paragraph:hover {

@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import {Parser} from 'html-to-react';
+import {XmlEntities} from 'html-entities';
+
+var htmlToReactParser = new Parser();
+var entities = new XmlEntities();
 
 function App() {
   const [srdata, setSrdata] = useState(null);
   const [subreddit, setSubreddit] = useState("");
   const [fetching, setFetching] = useState(false);
 
-  useEffect(() => {
-    fetchSubredditData("rust");
-  }, []);
+  // useEffect(() => {
+  //   fetchSubredditData("rust");
+  // }, []);
 
   useEffect(() => {
     if (!srdata) return;
@@ -17,6 +22,7 @@ function App() {
 
   const fetchSubredditData = async (subreddit) => {
     setFetching(true);
+    setSrdata(null);
 
     let data = {
       subreddit,
@@ -48,7 +54,7 @@ function App() {
     fetchSubredditData(subreddit);
   }
 
-  let posts = [];
+  let posts = null;
   if (srdata && srdata.data) {
     posts = srdata.data.children.map((item, index) => {
       return <Post key={index.toString() + subreddit} item={item} />
@@ -57,14 +63,15 @@ function App() {
 
   return (
     <div className="app">
+      <header><h1>Reddit Client</h1></header>
       <form onSubmit={onSubmit}>
         <input
           value={subreddit}
-          placeholder="Enter subreddit"
+          placeholder="Search for a subreddit"
           onChange={onSubredditChange} />
       </form>
       {fetching && <Spinner />}
-      {posts.length && posts}
+      {posts && posts}
     </div>
   );
 }
@@ -76,11 +83,22 @@ function Post(props) {
     setClicked(!clicked);
   }
 
+  const onLinkClick = (e) => {
+    e.stopPropagation();
+  }
+
+  let element = null;
+  if (clicked && props.item.data.selftext_html) {
+    let decoded = entities.decode(props.item.data.selftext_html);
+    element = htmlToReactParser.parse(decoded);
+  }
+
   return (
     <div className="post">
-      <p onClick={onClick}>{props.item.data.title}</p>
-      {clicked && props.item.data.selftext_html &&
-        <div className="selftext">{props.item.data.selftext}</div>}
+      <p className="post-paragraph" onClick={onClick}>
+        <a className="post-link" href={props.item.data.url} onClick={onLinkClick} target="_blank" rel="noopener noreferrer">{props.item.data.title}</a></p>
+      {clicked && element &&
+        <div className="selftext">{element}</div>}
     </div>
   );
 }

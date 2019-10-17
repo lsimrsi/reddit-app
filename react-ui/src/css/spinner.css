@@ -1,9 +1,9 @@
 .lds-ellipsis {
     display: block;
     position: relative;
-    font-size: 3rem;
-    width:  10rem;
-    height: 10rem;
+    font-size: 6rem; /* controls how big spinner is */
+    width:  6em;
+    height: 6em;
   }
   .lds-ellipsis div {
     position: absolute;
@@ -11,19 +11,19 @@
     width: 1em;
     height: 1em;
     border-radius: 50%;
-    background: #fff;
+    background: rgb(42, 42, 42);
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
   }
   .lds-ellipsis div:nth-child(1) {
-    left: .5em;
+    left: 0.5em;
     animation: lds-ellipsis1 0.6s infinite;
   }
   .lds-ellipsis div:nth-child(2) {
-    left: .5em;
+    left: 0.5em;
     animation: lds-ellipsis2 0.6s infinite;
   }
   .lds-ellipsis div:nth-child(3) {
-    left: 2.6em;
+    left: 2.5em;
     animation: lds-ellipsis2 0.6s infinite;
   }
   .lds-ellipsis div:nth-child(4) {
@@ -51,7 +51,7 @@
       transform: translate(0, 0);
     }
     100% {
-      transform: translate(1.9em, 0);
+      transform: translate(2em, 0);
     }
   }
   

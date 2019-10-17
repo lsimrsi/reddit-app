@@ -1,10 +1,32 @@
 @import 'css/normalize.min.css';
 @import 'css/spinner.css';
 
-body {
-  background-color: #333;
+h1 {
+  color: #444;
+  text-align: center;
 }
-p {
+
+body {
+  background-color: rgb(235, 198, 198);
+  min-height: 101vh;
+}
+
+input {
+  box-sizing: border-box;
+  color: #444;
+  background-color: #eee;
+  width: 100%;
+  outline: none;
+  border: none;
+  padding: 20px;
+  font-size: 1.6rem;
+}
+
+.post-link {
+  color: #eee;
+}
+
+.post-paragraph {
   background-color: rgb(209, 124, 124);
   padding: 20px;
   font-size: 1.5rem;
@@ -15,23 +37,27 @@ p {
   transition: background-color 150ms;
 }
 
-p:hover {
+.post-paragraph:hover {
   background-color: rgb(223, 147, 147);
 }
 
-input {
-  width: 100%;
-  outline: none;
-  border: none;
-  background-color: #eee;
-  padding: 20px;
-  font-size: 1.6rem;
-}
-
 .selftext {
-  color: #ccc;
+  border: 10px solid rgb(209, 124, 124);
+  color: #444;
   font-size: 1.3rem;
   padding: 20px;
+}
+
+.selftext a {
+  color: rgb(34, 121, 129);
+}
+
+.selftext a:hover {
+  color: rgb(71, 171, 180);
+}
+
+.selftext a:visited {
+  color: rgb(0, 90, 100);
 }
 
 .spinner {

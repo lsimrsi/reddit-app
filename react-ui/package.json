@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "font-awesome": "^4.7.0",
     "html-entities": "^1.2.1",
     "html-to-react": "^1.4.2",
     "react": "^16.10.2",

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import {Parser} from 'html-to-react';
 import {XmlEntities} from 'html-entities';
+import 'font-awesome/css/font-awesome.min.css';
 
 var htmlToReactParser = new Parser();
 var entities = new XmlEntities();
@@ -98,10 +99,11 @@ function Post(props) {
   return (
     <section className="post">
       <p className="post-paragraph" onClick={onClick}>
-        <div className="has-content">
-          {hasContent && ">"}
+        <div className="icon">
+          {hasContent && <span className="fa fa-search" />}
         </div>
-        <a className="post-link" href={props.item.data.url} onClick={onLinkClick} target="_blank" rel="noopener noreferrer">{props.item.data.title}</a>
+        <a className="icon fa fa-link" href={props.item.data.url} onClick={onLinkClick} target="_blank" rel="noopener noreferrer"></a>
+        {props.item.data.title}
       </p>
       {clicked && element &&
       <div className="selftext">{element}</div>}

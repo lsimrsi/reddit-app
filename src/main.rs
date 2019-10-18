@@ -104,7 +104,7 @@ fn main() {
                 web::resource("/get/rust/posts/slowwly")
                     .route(web::get().to_async(get_rust_posts_slowwly)),
             )
-            .service(fs::Files::new("/", "./static/build").index_file("index.html"))
+            .service(fs::Files::new("/", "static/build").index_file("index.html"))
             .default_service(
                 // 404 for GET request
                 web::resource("")

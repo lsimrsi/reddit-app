@@ -1,5 +1,5 @@
 use actix_files as fs;
-use actix_web::{middleware, web, App, Error, HttpResponse, HttpServer};
+use actix_web::{http, middleware, web, guard, App, Error, HttpResponse, HttpServer};
 use futures::Future;
 use reqwest::{self, Client};
 use serde::Deserialize;
@@ -74,6 +74,10 @@ fn post_subreddit_data(
     send_request(client.post(&subreddit))
 }
 
+fn p404() -> Result<fs::NamedFile, Error> {
+    Ok(fs::NamedFile::open("static/404.html")?.set_status_code(http::StatusCode::NOT_FOUND))
+}
+
 fn main() {
     HttpServer::new(|| {
         App::new()
@@ -91,9 +95,20 @@ fn main() {
                 web::resource("/get/rust/posts/slowwly")
                     .route(web::get().to_async(get_rust_posts_slowwly)),
             )
-            .service(fs::Files::new("/", "./react-ui/build/").index_file("index.html"))
+            .service(fs::Files::new("/", "./static/build").index_file("index.html"))
+            .default_service(
+                // 404 for GET request
+                web::resource("")
+                    .route(web::get().to(p404))
+                    // all requests that are not `GET`
+                    .route(
+                        web::route()
+                            .guard(guard::Not(guard::Get()))
+                            .to(HttpResponse::MethodNotAllowed),
+                    ),
+            )
     })
-    .bind("0.0.0.0:8000")
+    .bind("0.0.0.0:5000")
     .unwrap()
     .run()
     .unwrap();

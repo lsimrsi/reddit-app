@@ -3,7 +3,7 @@ use actix_web::{http, middleware, web, guard, App, Error, HttpResponse, HttpServ
 use futures::Future;
 use reqwest::{self, Client};
 use serde::Deserialize;
-// use std::path::PathBuf;
+use std::env;
 
 static BASE_URL: &str = "http://www.reddit.com/r/";
 static RUST: &str = "http://www.reddit.com/r/rust.json";
@@ -78,6 +78,12 @@ fn p404() -> Result<fs::NamedFile, Error> {
     Ok(fs::NamedFile::open("static/404.html")?.set_status_code(http::StatusCode::NOT_FOUND))
 }
 
+// if port is defined as an environment variable, use that instead
+// for example, Heroku defines its own port
+fn get_server_port() -> u16 {
+    env::var("PORT").ok().and_then(|p| p.parse().ok()).unwrap_or(5000)
+}
+
 fn main() {
     HttpServer::new(|| {
         App::new()
@@ -100,7 +106,7 @@ fn main() {
                 // 404 for GET request
                 web::resource("")
                     .route(web::get().to(p404))
-                    // all requests that are not `GET`
+                    // all requests that are not GET
                     .route(
                         web::route()
                             .guard(guard::Not(guard::Get()))
@@ -108,7 +114,7 @@ fn main() {
                     ),
             )
     })
-    .bind("0.0.0.0:5000")
+    .bind(("0,0,0,0", get_server_port()))
     .unwrap()
     .run()
     .unwrap();

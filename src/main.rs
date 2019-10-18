@@ -81,7 +81,10 @@ fn p404() -> Result<fs::NamedFile, Error> {
 // if port is defined as an environment variable, use that instead
 // for example, Heroku defines its own port
 fn get_server_port() -> u16 {
-    env::var("PORT").ok().and_then(|p| p.parse().ok()).unwrap_or(5000)
+    env::var("PORT")
+        .unwrap_or_else(|_| "5000".to_string())
+        .parse()
+        .expect("PORT must be a number")
 }
 
 fn main() {
@@ -114,7 +117,7 @@ fn main() {
                     ),
             )
     })
-    .bind(("0,0,0,0", get_server_port()))
+    .bind(("0.0.0.0", get_server_port()))
     .unwrap()
     .run()
     .unwrap();

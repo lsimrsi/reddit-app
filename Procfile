@@ -1,1 +1,1 @@
-web: ./target/release/reddit_app
+web: ./target/release/reddit-app

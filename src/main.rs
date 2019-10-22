@@ -10,6 +10,8 @@ static RUST: &str = "http://www.reddit.com/r/rust.json";
 static SLOWWLY: &str =
     "http://slowwly.robertomurray.co.uk/delay/5000/url/http://www.reddit.com/r/rust.json";
 
+// User-Agent: windows:rust-reddit-app:v1.2.3 (by /u/rapiacct)
+
 // generic method for sending off a request (get or post)
 // and returns the response back to the front-end
 fn send_request(

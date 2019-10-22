@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './App.css';
 import {Parser} from 'html-to-react';
 import {XmlEntities} from 'html-entities';
@@ -7,10 +7,16 @@ import 'font-awesome/css/font-awesome.min.css';
 var htmlToReactParser = new Parser();
 var entities = new XmlEntities();
 
+const ThemeContext = React.createContext({
+  theme: 'default',
+  toggle: () => {}
+});
+
 function App() {
   const [srdata, setSrdata] = useState(null);
   const [subreddit, setSubreddit] = useState("");
   const [fetching, setFetching] = useState(false);
+  const [theme, setTheme] = useState('default');
 
   useEffect(() => {
     fetchSubredditData("rust");
@@ -63,22 +69,25 @@ function App() {
   }
 
   return (
-    <div className="app">
-      <header><h1>Reddit Client</h1></header>
-      <form onSubmit={onSubmit}>
-        <input
-          value={subreddit}
-          placeholder="Search for a subreddit"
-          onChange={onSubredditChange} />
-      </form>
-      {fetching && <Spinner />}
-      {posts && posts}
-    </div>
+    <ThemeContext.Provider value={{theme, setTheme}}>
+      <div className="app">
+        <header><h1>Reddit Client</h1><ThemeToggle /></header>
+        <form onSubmit={onSubmit}>
+          <input
+            value={subreddit}
+            placeholder="Search for a subreddit"
+            onChange={onSubredditChange} />
+        </form>
+        {fetching && <Spinner />}
+        {posts && posts}
+      </div>
+    </ThemeContext.Provider>
   );
 }
 
 function Post(props) {
   const [clicked, setClicked] = useState(false);
+  const ctx = useContext(ThemeContext);
 
   const onClick = () => {
     setClicked(!clicked);
@@ -97,12 +106,12 @@ function Post(props) {
   }
 
   return (
-    <section className="post">
+    <section className={`post ${ctx.theme}`}>
       <p className="post-paragraph" onClick={onClick}>
-        <div className="icon">
+        <div className={`icon ${ctx.theme}`}>
           {hasContent && <span className="fa fa-search" />}
         </div>
-        <a className="icon fa fa-link" href={props.item.data.url} onClick={onLinkClick} target="_blank" rel="noopener noreferrer"></a>
+        <a className={`icon ${ctx.theme}`} href={props.item.data.url} onClick={onLinkClick} target="_blank" rel="noopener noreferrer"><span className="fa fa-link"></span></a>
         {props.item.data.title}
       </p>
       {clicked && element &&
@@ -110,10 +119,20 @@ function Post(props) {
     </section>
   );
 }
+export default App;
 
 const Spinner = () =>
   <div className="spinner">
     <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
   </div>;
 
-export default App;
+const ThemeToggle = () => {
+  const ctx = useContext(ThemeContext);
+  const toggleTheme = (newtheme) => {
+    ctx.theme === 'default' ? ctx.setTheme('dark') : ctx.setTheme('default');
+  }
+
+  return (
+    <button onClick={toggleTheme} className={ctx.theme}>Theme: {ctx.theme.charAt(0).toUpperCase() + ctx.theme.slice(1)}</button>
+  );
+}

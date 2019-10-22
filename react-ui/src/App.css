@@ -22,23 +22,39 @@ input {
   font-size: 1.6rem;
 }
 
-section {
+section.default {
   border-bottom: 1px solid rgba(255, 255, 255, 0.287);
   background-color: rgb(197, 226, 222);
   color: rgb(85, 85, 85);
 }
 
-section:hover {
+section.default:hover {
   color: #eee;
   background-color: #948184;
 }
 
+section.dark {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.287);
+  background-color: rgb(64, 70, 69);
+  color: #aaa;
+}
+
+section.dark:hover {
+  color: #eee;
+  background-color: #c05161;
+}
+
 .icon {
   text-decoration: none;
-  color: #333;
   width: 40px;
   height: 40px;
   margin: auto 0;
+}
+.icon.default {
+  color: #333;
+}
+.icon.dark {
+  color: #aaa;
 }
 
 .post-link {
@@ -84,3 +100,4 @@ section:hover {
   display: flex;
   justify-content: center;
 }
+

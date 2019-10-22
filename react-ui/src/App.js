@@ -7,10 +7,7 @@ import 'font-awesome/css/font-awesome.min.css';
 var htmlToReactParser = new Parser();
 var entities = new XmlEntities();
 
-const ThemeContext = React.createContext({
-  theme: 'default',
-  toggle: () => {}
-});
+const ThemeContext = React.createContext();
 
 function App() {
   const [srdata, setSrdata] = useState(null);

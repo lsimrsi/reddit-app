@@ -11,6 +11,17 @@ body {
   min-height: 101vh;
 }
 
+button {
+  min-width: 150px;
+  padding: 10px;
+  outline: none;
+  border: none;
+}
+
+button:hover {
+  background: #ccc;
+}
+
 input {
   box-sizing: border-box;
   color: #444;

@@ -90,6 +90,7 @@ fn get_server_port() -> u16 {
 }
 
 fn main() {
+    println!("listening on: {}", get_server_port());
     HttpServer::new(|| {
         App::new()
             .data(Client::new())

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './App.css';
-import {Parser} from 'html-to-react';
-import {XmlEntities} from 'html-entities';
+import { Parser } from 'html-to-react';
+import { XmlEntities } from 'html-entities';
 import 'font-awesome/css/font-awesome.min.css';
 
 var htmlToReactParser = new Parser();
@@ -25,8 +25,6 @@ function App() {
   });
 
   const fetchSubredditData = async (subreddit) => {
-    setFetching(true);
-    setSrdata(null);
 
     let data = {
       subreddit,
@@ -43,6 +41,7 @@ function App() {
 
     let srdata = await res.json();
     if (!srdata) return;
+    if (!srdata.data) return;
 
     setFetching(false);
     setSrdata(srdata);
@@ -66,7 +65,7 @@ function App() {
   }
 
   return (
-    <ThemeContext.Provider value={{theme, setTheme}}>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
       <div className="app">
         <header><h1>Reddit Client</h1><ThemeToggle /></header>
         <form onSubmit={onSubmit}>
@@ -112,7 +111,7 @@ function Post(props) {
         {props.item.data.title}
       </p>
       {clicked && element &&
-      <div className="selftext">{element}</div>}
+        <div className="selftext">{element}</div>}
     </section>
   );
 }

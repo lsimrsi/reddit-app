@@ -10,10 +10,15 @@ function App() {
   const [subreddit, setSubreddit] = useState("");
   const [fetching, setFetching] = useState(false);
   const [theme, setTheme] = useState('default');
+  const [themeContext, setThemeContext] = useState({ theme, setTheme });
 
   useEffect(() => {
     fetchSubredditData("rust");
   }, []);
+
+  useEffect(() => {
+    setThemeContext({ theme, setTheme });
+  }, [theme]);
 
   useEffect(() => {
     if (!srdata) return;
@@ -63,7 +68,7 @@ function App() {
   }
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
+    <ThemeContext.Provider value={themeContext}>
       <div className="app">
         <header><h1>Reddit Client</h1><ThemeToggle /></header>
         <form onSubmit={onSubmit}>
@@ -83,11 +88,12 @@ export default App;
 
 const ThemeToggle = () => {
   const ctx = useContext(ThemeContext);
-  const toggleTheme = (newtheme) => {
+  const toggleTheme = () => {
     ctx.theme === 'default' ? ctx.setTheme('dark') : ctx.setTheme('default');
   }
 
+  let formattedTheme = ctx.theme.charAt(0).toUpperCase() + ctx.theme.slice(1);
   return (
-    <button onClick={toggleTheme} className={ctx.theme}>Theme: {ctx.theme.charAt(0).toUpperCase() + ctx.theme.slice(1)}</button>
+    <button onClick={toggleTheme} className={ctx.theme}>Theme: {formattedTheme}</button>
   );
 }

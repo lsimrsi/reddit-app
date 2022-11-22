@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './App.css';
+import Spinner from './components/spinner';
 import { Parser } from 'html-to-react';
 import { XmlEntities } from 'html-entities';
 import 'font-awesome/css/font-awesome.min.css';
@@ -22,9 +23,11 @@ function App() {
   useEffect(() => {
     if (!srdata) return;
     document.title = srdata.data.children[0].data.subreddit + ' posts';
-  });
+  }, [srdata]);
 
   const fetchSubredditData = async (subreddit) => {
+    setFetching(true);
+    setSrdata(null);
 
     let data = {
       subreddit,
@@ -116,11 +119,6 @@ function Post(props) {
   );
 }
 export default App;
-
-const Spinner = () =>
-  <div className="spinner">
-    <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-  </div>;
 
 const ThemeToggle = () => {
   const ctx = useContext(ThemeContext);

@@ -42,12 +42,12 @@ function App() {
     });
     if (!res) return;
 
-    let srdata = await res.json();
-    if (!srdata) return;
-    if (!srdata.data) return;
+    let jsonResponse = await res.json();
+    if (!jsonResponse) return;
+    if (!jsonResponse.data) return;
 
     setFetching(false);
-    setSrdata(srdata);
+    setSrdata(jsonResponse);
   }
 
   const onSubredditChange = (e) => {

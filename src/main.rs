@@ -5,8 +5,8 @@ use reqwest::{self, Client};
 use serde::Deserialize;
 use std::env;
 
-static BASE_URL: &str = "http://www.reddit.com/r/";
-static RUST: &str = "http://www.reddit.com/r/rust.json";
+static BASE_URL: &str = "https://www.reddit.com/r/";
+static RUST: &str = "https://www.reddit.com/r/rust.json";
 static SLOWWLY: &str =
     "http://slowwly.robertomurray.co.uk/delay/5000/url/http://www.reddit.com/r/rust.json";
 
@@ -42,6 +42,7 @@ fn send_request(
 fn get_rust_posts(
     client: web::Data<Client>,
 ) -> impl Future<Item = HttpResponse, Error = actix_web::Error> {
+    println!("get_rust_posts");
     send_request(client.get(RUST))
 }
 
@@ -57,6 +58,7 @@ fn get_subreddit_data(
     subreddit: web::Path<(String)>,
     client: web::Data<Client>,
 ) -> impl Future<Item = HttpResponse, Error = actix_web::Error> {
+    println!("get_subreddit_data");
     let subreddit = format!("{}{}{}", BASE_URL, subreddit, ".json");
     send_request(client.get(&subreddit))
 }
@@ -72,8 +74,9 @@ fn post_subreddit_data(
     srquery: web::Json<(SubredditQuery)>,
     client: web::Data<Client>,
 ) -> impl Future<Item = HttpResponse, Error = actix_web::Error> {
+    println!("post_subreddit_data");
     let subreddit = format!("{}{}{}", BASE_URL, srquery.subreddit, ".json");
-    send_request(client.post(&subreddit))
+    send_request(client.get(&subreddit))
 }
 
 fn p404() -> Result<fs::NamedFile, Error> {

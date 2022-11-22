@@ -1,14 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './App.css';
 import Spinner from './components/spinner';
-import { Parser } from 'html-to-react';
-import { XmlEntities } from 'html-entities';
+import Post from './components/post';
 import 'font-awesome/css/font-awesome.min.css';
-
-var htmlToReactParser = new Parser();
-var entities = new XmlEntities();
-
-const ThemeContext = React.createContext();
+import ThemeContext from './context';
 
 function App() {
   const [srdata, setSrdata] = useState(null);
@@ -84,40 +79,6 @@ function App() {
   );
 }
 
-function Post(props) {
-  const [clicked, setClicked] = useState(false);
-  const ctx = useContext(ThemeContext);
-
-  const onClick = () => {
-    setClicked(!clicked);
-  }
-
-  const onLinkClick = (e) => {
-    e.stopPropagation();
-  }
-
-  let hasContent = props.item.data.selftext_html ? true : false;
-
-  let element = null;
-  if (clicked && hasContent) {
-    let decoded = entities.decode(props.item.data.selftext_html);
-    element = htmlToReactParser.parse(decoded);
-  }
-
-  return (
-    <section className={`post ${ctx.theme}`}>
-      <p className="post-paragraph" onClick={onClick}>
-        <div className={`icon ${ctx.theme}`}>
-          {hasContent && <span className="fa fa-search" />}
-        </div>
-        <a className={`icon ${ctx.theme}`} href={props.item.data.url} onClick={onLinkClick} target="_blank" rel="noopener noreferrer"><span className="fa fa-link"></span></a>
-        {props.item.data.title}
-      </p>
-      {clicked && element &&
-        <div className="selftext">{element}</div>}
-    </section>
-  );
-}
 export default App;
 
 const ThemeToggle = () => {
